@@ -1,0 +1,137 @@
+﻿@model mgrprojekt.ViewModel.DaneDoRezerwacjiWizyty
+@{
+    ViewBag.Title = "RezerwujWizyte";
+    Layout = "~/Views/Shared/_LayoutPlanowanieWizyty.cshtml";
+}
+
+
+@using (Html.BeginForm("RezerwujWizyte", "PlanowanieWizyt", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    
+    if (ViewData["Id"] == null)
+    {
+       @Html.HiddenFor(a => a.IDLekarz, new { Value = Model.IDLekarz })
+    }
+       else
+       {
+           @Html.HiddenFor(a => a.IDLekarz, new { Value = ViewData["Id"].ToString() })
+       }
+
+
+       if (ViewData["date"] == null)
+       {
+            @Html.HiddenFor(a => a.Wizyta.DataWizyty, new { Value = Model.Wizyta.DataWizyty })
+       }
+            else
+            {
+                @Html.HiddenFor(a => a.Wizyta.DataWizyty, new { Value = ViewData["date"].ToString() })
+                         }
+
+            if (ViewData["godzina"] == null)
+            {
+                @Html.HiddenFor(a => a.Wizyta.GodzinaWizyty, new { Value = Model.Wizyta.GodzinaWizyty })
+            }
+                else
+                {
+                    @Html.HiddenFor(a => a.Wizyta.GodzinaWizyty, new { Value = ViewData["godzina"].ToString() })
+                                     }
+
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="lekarz">Lekarz:</label>
+        @if (ViewData["Imie"] == null && ViewData["Nazwisko"] == null)
+        {
+            <label class="control-label col-sm-8">@Model.Wizyta.Lekarz.Imie @Model.Wizyta.Lekarz.Nazwisko</label>
+                }
+                else
+                {
+                <label class="control-label col-sm-8">@ViewData["Imie"].ToString() @ViewData["Nazwisko"].ToString()</label>
+                }
+</div>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="lekarz">Data wizyty:</label>
+        @if (ViewData["date"] == null)
+        {
+            <label class="control-label col-sm-8">@Model.Wizyta.DataWizyty</label>
+        }
+        else
+        {
+            <label class="control-label col-sm-8">@ViewData["date"].ToString()</label>
+        }
+        
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="lekarz">Godzina:</label>
+        @if (ViewData["godzina"] == null)
+        {
+            <label class="control-label col-sm-8">@Model.Wizyta.GodzinaWizyty</label>
+        }
+        else
+        {
+            <label class="control-label col-sm-8">@ViewData["godzina"].ToString()</label>
+        }
+        
+    </div>
+    <hr />
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="imie">@Html.LabelFor(a => a.Pacjent.Imie, "Imię:")</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(a => a.Pacjent.Imie, new { @class = "form-control", id = "imie", placeholder = "Imię", name = "imie" })
+        </div>
+        <div class="alert-warning">
+            @Html.ValidationMessageFor(a => a.Pacjent.Imie)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="nazwisko">@Html.LabelFor(a => a.Pacjent.Nazwisko, "Nazwisko:")</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(a => a.Pacjent.Nazwisko, new { @class = "form-control", id = "nazwisko", placeholder = "Nazwisko", name = "nazwisko" })
+        </div>
+        <div class="alert-warning">
+            @Html.ValidationMessageFor(a => a.Pacjent.Nazwisko)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="pesel">@Html.LabelFor(a => a.Pacjent.NrPSEL, "PESEL:")</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(a => a.Pacjent.NrPSEL, new { @class = "form-control", id = "pesel", placeholder = "PESEL", name = "pesel" })
+        </div>
+        <div class="alert-warning">
+            @Html.ValidationMessageFor(a => a.Pacjent.NrPSEL)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="tel">@Html.LabelFor(a => a.Pacjent.NrTel, "Nr tel.:")</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(a => a.Pacjent.NrTel, new { @class = "form-control", id = "tel", placeholder = "Nr tel.", name = "tel" })
+        </div>
+        <div class="alert-warning">
+            @Html.ValidationMessageFor(a => a.Pacjent.NrTel)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="adres">@Html.LabelFor(a => a.Pacjent.AdresZameldowania, "Adres:")</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(a => a.Pacjent.AdresZameldowania, new { @class = "form-control", id = "adres", placeholder = "Adres", name = "adres" })
+        </div>
+        <div class="alert-warning">
+            @Html.ValidationMessageFor(a => a.Pacjent.AdresZameldowania)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-5">
+            <button type="submit" class="btn btn-success">Potwierdź</button>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-5">
+            @if (ViewData["Id"] == null)
+            {
+                <a style="text-decoration: none; color: #fff" href="@Url.Action("KalendarzRezerwacji", "PlanowanieWizyt", new { id = Model.IDLekarz })"><input type="button" class="btn btn-danger" value="Zmień datę"></a>
+            }
+            else
+            {
+                <a style="text-decoration: none; color: #fff" href="@Url.Action("KalendarzRezerwacji", "PlanowanieWizyt", new { id = int.Parse(ViewData["Id"].ToString()) })"><input type="button" class="btn btn-danger" value="Zmień datę"></a>
+            }
+        </div>
+    </div>
+}

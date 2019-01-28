@@ -1,0 +1,101 @@
+﻿    @model mgrprojekt.ViewModel.RezerwacjaWizyty
+@{
+    ViewBag.Title = "PanelRezerwacjiGodz";
+    Layout = "~/Views/Shared/_LayoutPlanowanieWizytyRezerwacja.cshtml";
+}
+
+@{
+    var godz = Model.Lekarz.GodzinyPrzyjmowania.Split('-');
+
+    /*var dni = Model.Lekarz.DniPrzyjowania.Split(',');*/
+    //var dni = new Dictionary<List<string>, DateTime>();
+    //var nazwyDni = new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+    //var nowDay = DateTime.Now;//DayOfWeek.ToString();
+    //DateTime pierwszyDzien = nowDay;
+    //int j = 1;
+    //int k = 0;
+    //do
+    //{
+    //    pierwszyDzien = pierwszyDzien.AddDays(-j);
+    //} Html.ActionLink("Wolne", "RezerwujWizyte", "PlanowanieWizyt", new { date = "val", godzina = i + ":00", idLekarza = Model.Lekarz.IdLekarz }, new { @class = "links" })
+    //while (pierwszyDzien.DayOfWeek.ToString() != "Monday");
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            @{
+                <thead>
+                    <tr>
+                        <th>Godzina</th>
+                        <th id="dayColumnHeader">
+                            <script>
+                                var nowyDzien =@Html.Raw(Json.Encode(Model.SelectedDate));
+                                var data = nowyDzien.substring(0,10);
+                                var dni = nowyDzien.substring(11);
+                                document.write(dni)
+                                if (dni === 'Monday') document.getElementById("dayColumnHeader").innerHTML = data + ' Poniedziałek';
+                                else if (dni === 'Tuesday') document.getElementById("dayColumnHeader").innerHTML = data + ' Wtorek';
+                                else if (dni === 'Wednesday') document.getElementById("dayColumnHeader").innerHTML = data + ' Środa';
+                                else if (dni === 'Thursday') document.getElementById("dayColumnHeader").innerHTML = data + ' Czwartek';
+                                else if (dni === 'Friday') document.getElementById("dayColumnHeader").innerHTML = data +  ' Piątek';
+                            </script>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = Convert.ToInt32(godz[0]); i < Convert.ToInt32(godz[1]); i++)
+                    {
+                        <tr id="@i">
+                            <td>@i:00</td>
+                            <td id="">@*@if (Model.Wizyty.Count == 0)
+                                {
+                                    <a href="@Url.Action("RezerwujWizyte", "PlanowanieWizyt", new { date = Model.SelectedDate.Split(' ')[0], godzina = i + ":00", idLekarza = Model.Lekarz.IdLekarz })" class="links">
+                                        <input type="button" value="Wolne" class="btn btn-success buttonList" /></a>
+                            }
+                            else
+                            {*@
+                                @*@foreach (var w in Model.Wizyty)
+                                {*@
+                                    @if (Model.Wizyty.Any(a=>a.GodzinaWizyty == i + ":00"))
+                                    {
+                                        <input type="button" value="Zajęte" class="btn btn-danger buttonList" disabled="disabled" style="cursor:not-allowed;" />
+                                    }
+                                    else
+                                    {
+                                            <a href="@Url.Action("RezerwujWizyte", "PlanowanieWizyt", new { date = Model.SelectedDate.Split(' ')[0], godzina = i + ":00", idLekarza = Model.Lekarz.IdLekarz })" class="links">
+                                                <input type="button" value="Wolne" class="btn btn-success buttonList" /></a>
+                                        }
+                                    @*}*@
+                                @*}*@
+                            </td>
+                        </tr>
+                        <tr id="@i">
+                            <td>@i:30</td>
+                            <td>@*@if (Model.Wizyty.Count == 0)
+                                {
+                                    <a href="@Url.Action("RezerwujWizyte", "PlanowanieWizyt", new { date = Model.SelectedDate.Split(' ')[0], godzina = i + ":30", idLekarza = Model.Lekarz.IdLekarz })" class="links">
+                                        <input type="button" value="Wolne" class="btn btn-success buttonList" /></a>
+                            }
+                            else*@
+                           
+                                @*@foreach (var w in Model.Wizyty)
+                                {*@
+                                    @if (Model.Wizyty.Any(a => a.GodzinaWizyty == i + ":30"))
+                                        {
+                                        <input type="button" value="Zajęte" class="btn btn-danger buttonList" disabled="disabled" style="cursor:not-allowed;" />
+                                    }
+                                    else
+                                    {
+                                            <a href="@Url.Action("RezerwujWizyte", "PlanowanieWizyt", new { date = Model.SelectedDate.Split(' ')[0], godzina = i + ":30", idLekarza = Model.Lekarz.IdLekarz })" class="links">
+                                                <input type="button" value="Wolne" class="btn btn-success buttonList" /></a>
+                                        }
+                                    @*}*@
+                                @*}*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+    </div>
+
+}

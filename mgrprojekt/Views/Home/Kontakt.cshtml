@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Kontakt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row slider">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <section>
+            <h3>Nasze dane kontaktowe:</h3>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>Adres:</strong></p>
+                    </div>
+                    <div class="col-sm-offset-4 col-sm-2">
+                        <p><strong> Wiejska 45c</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>Tel. kom.:</strong></p>
+                    </div>
+                    <div class="col-sm-offset-4 col-sm-2">
+                        <p><strong> 777-777-777</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>Tel. stac.:</strong></p>
+                    </div>
+                    <div class="col-sm-offset-4 col-sm-2">
+                        <p><strong> (85)777-77-77</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>Adres e-mail:</strong></p>
+                    </div>
+                    <div class="col-sm-offset-4 col-sm-2">
+                        <p><strong> przychodnia@rr.pl</strong></p>
+                    </div>
+                </div>
+        </section>
+        <section>
+            <div id="map" style="width:100%;height:500px">Mapa do kontaktu</div>
+        </section>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+
+<script>
+    function myMap() {
+        var cent = { lat: 53.118293, lng: 23.149695 };
+        var mapOptions = {
+            center: cent,
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.HYBRID
+        }
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var marker = new google.maps.Marker({
+            position: cent,
+            map: map
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbQH-Itf7on8ZsNTG5C20sFH1_9-yEZc4&callback=myMap"></script>
+<div class="all"></div>

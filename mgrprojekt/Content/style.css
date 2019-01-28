@@ -1,0 +1,101 @@
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+        .headerPadding {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 0px;
+        }
+
+        figure.logoImg {
+            margin-bottom: 20px;
+        }
+
+        .navigation{
+            border-radius: 0px;
+        }
+
+        .sticky {
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 100;
+    }
+
+    .foot{
+        margin: 5px 0 5px;
+    }
+
+    .all{
+        margin-bottom: 50px;
+    }
+        
+/*Index*/
+    .FigureImg{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .slider{
+        margin-bottom: 30px;
+    }
+	
+/*doctors*/
+
+			.imgDoctors{
+				float: left;
+			}
+			
+			.description{
+				font-size: 22px;
+				float: left;
+			}
+
+            .buttonList{
+                padding: 1px;
+            }
+
+/*Kalendarz*/
+.calendar{
+    margin-bottom: 50px;
+}
+
+.InputCalendar {
+    margin-bottom: 20px;
+    width:285px;
+}
+
+/*Panel logowania lekarza*/
+.formForLog{
+    margin-bottom: 10px;
+}
+
+.marBut{
+    margin-bottom: 90px;
+}
+
+/*Wizyty lekarza*/
+.marginCal{
+    margin-bottom: 10px;
+}
+
+.hr{
+    border-width: 2px;
+    border-color: silver;
+}
+
+/*Kontakt*/
+.contact{
+    margin-bottom: 50px;
+}
+
+/*O nas*/
+.imgSize{
+    width: 50%;
+    height: 50%;
+}
+.aboutUs{
+    font-size: 15px;
+}

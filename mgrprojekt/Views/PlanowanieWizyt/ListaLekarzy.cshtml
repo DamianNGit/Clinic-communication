@@ -1,0 +1,25 @@
+﻿@model IEnumerable<mgrprojekt.Models.Lekarz>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Specjalizacja</th>
+                <th>Umów się</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var l in Model)
+            {
+                <tr>
+                    <td>@l.Imie</td>
+                    <td>@l.Nazwisko</td>
+                    <td>@l.Specjalizacja</td>
+                    <td><a href="@Url.Action("KalendarzRezerwacji","PlanowanieWizyt", new {id=l.IdLekarz})"><input type="button" value="Zapisz się" class="btn btn-info buttonList"/></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        @Html.Action("ListaLekarzy", "PlanowanieWizyt")
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+        @RenderBody()
+        <div class="calendar"></div>
+    </div>
+    <div class="col-md-2"></div>
+</div>

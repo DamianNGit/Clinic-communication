@@ -1,0 +1,159 @@
+﻿@model mgrprojekt.Models.Lekarz
+@{
+    ViewBag.Title = "KalendarzRezerwacji";
+    Layout = "~/Views/Shared/_LayoutPlanowanieWizytyRezerwacja.cshtml";
+    string data = DateTime.Now.Date.ToShortDateString();
+}
+
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+<!--Font Awesome (icons)-->
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+<script>
+    $(document).ready(function () {
+        var date;
+        var daySelected;
+        var stringDate = @Html.Raw(Json.Encode(data));
+
+
+        var checkDateFromDoctor = @Html.Raw(Json.Encode(Model.DniPrzyjowania));
+        $("#btnCheck").click(function () {
+            alert("Sprawdzam");
+            date = $('.dateInput').val();
+            if (date != "") {
+                d = new Date(date);
+
+                switch (d.getDay())
+                {
+                    case 0:
+                        day = "Sunday";
+                        break;
+                    case 1:
+                        day = "Monday";
+                        break;
+                    case 2:
+                        day = "Tuesday";
+                        break;
+                    case 3:
+                        day = "Wednesday";
+                        break;
+                    case 4:
+                        day = "Thursday";
+                        break;
+                    case 5:
+                        day = "Friday";
+                        break;
+                    case 6:
+                        day = "Saturday";
+                }
+
+                if (day === "Sunday" || day === "Saturday") {
+                    alert("Weekend is closed, change date")
+                }
+                else
+                {
+                    var dayToMatch = checkDateFromDoctor.split(",");
+                    var match = false;
+                    for (i = 0; i < dayToMatch.length; i++) {
+                        if (dayToMatch[i] === day) {
+                            match = true;
+                        }
+                    }
+                    if (!match) {
+                        alert("Wybierz inny dzień");
+                        location.reload();
+                    }
+                    else
+                    {
+                        alert("Przejdź dalej");
+                        daySelected = String(day);
+                        $('.SelectDate').removeAttr("disabled");
+                        $('.SelectDate').removeAttr("style");
+                    }
+                }
+            }
+            else
+                alert("Select date. This field is required!")
+        });
+
+        $('.SelectDate').click(function () {
+            var val = $(".dateInput").val();
+            var href = $(this).attr("href");
+            var newhref = href.replace("val", val);
+            $(this).attr("href", newhref);
+        });
+
+          var date_input = $('input[name="dataPicker"]');
+                    var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+                    var today = new Date();
+                    
+                    date_input.datepicker({
+                        format: 'yyyy-mm-dd',
+                        container: container,
+                        todayHighlight: true,
+                        autoclose: true,
+                        startDate: today,
+                        daysOfWeekDisabled: [0,6]
+                    });
+    });
+
+    function returnDate() {
+        var exp = /./;
+        if (stringDate.search(exp) == -1)
+        {
+            return stringDate;
+        }
+        else {
+            var split = stringDate.split(".");
+            var res = split[2] + "-" + split[1]+"-" + split[0];
+            return res;
+        }
+    }
+</script>
+
+<h4 style="float: left; white-space: pre">Dzień przyjmowania to: </h4>
+<h4 id="dzienTygodnia" style="float: left;">asda</h4>
+<script>
+        var nowyDzien =@Html.Raw(Json.Encode(Model.DniPrzyjowania));
+        var pl = "";
+        if (nowyDzien.search(/Monday/))
+               pl += "Poniedziałek ";
+        //        //document.getElementById("dzienTygodnia").innerHTML = ' Poniedziałek';
+        if (nowyDzien.search(/Tuesday/))
+                pl += "Wtorek ";
+        //    //document.getElementById("dzienTygodnia").innerHTML = ' Wtorek';
+        if (nowyDzien.search(/Wednesday/))
+                pl += "Środa ";
+        //        //document.getElementById("dzienTygodnia").innerHTML = ' Środa';
+        if (nowyDzien.search(/Thursday/))
+               pl += "Czwartek ";
+        //        //document.getElementById("dzienTygodnia").innerHTML = ' Czwartek';
+        if (nowyDzien.search(/Friday/))
+                pl += "Piątek";
+        //        //document.getElementById("dzienTygodnia").innerHTML = ' Piątek';
+        pl = pl.replace(new RegExp(" ", 'g'), ", ");
+        document.getElementById("dzienTygodnia").innerHTML = pl;
+</script>
+
+<div style="clear:both;"></div>
+
+    <div class="input-group InputCalendar">
+        <input data-format="yyyy-MM-dd" class="form-control dateInput" id="date" name="dataPicker" placeholder="YYYY-MM-DD" type="text"  min="returnDate()"/>
+        <div class="input-group-addon">
+            <i class="fa fa-calendar">
+            </i>
+        </div>
+    </div>
+
+
+
+
+<input type="button" class="btn btn-warning" value="Sprawdź" id="btnCheck" style="margin-right: 5px;" />
+<a href='@Url.Action("PanelRezerwacjiGodz", "PlanowanieWizyt", new { selectedDate="val", lekarz=Model.IdLekarz, selectedDay="day"})' class="SelectDate">
+    <input type="button" class="btn btn-primary SelectDate" value="Dostępne godziny" id="btnCheckOk" disabled="disabled" style="cursor:not-allowed; opacity:0.6;"/>
+</a>

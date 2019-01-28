@@ -1,0 +1,125 @@
+﻿@model mgrprojekt.ViewModel.ListaWizytPanelLekarza
+@{
+    ViewBag.Title = "ListaWizyt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Font Awesome (added because you use icons in your prepend/append)-->
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+
+<script>
+    $(document).ready(function () {
+        var date_input = $('input[name="date"]');
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        var today = new Date();
+        date_input.datepicker({
+            format: 'yyyy-mm-dd',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+            startDate: today,
+            daysOfWeekDisabled: [0, 6],
+        });
+
+        if ($('#submit').attr("href")!=null)
+        {
+            $('#submit').removeAttr("href");
+        }
+
+        $('#submit').click(function () {
+            var datePicked = $('#date').val();
+            if (datePicked == '')
+            {
+                alert("Wybierz date");
+            }
+            else
+            {
+                var link = '@Url.Action("ListaWizyt", "PanelPracownika", new { date = "val" })';
+                var newLink = link.replace("val", datePicked);
+                $(this).attr("href", newLink);
+                
+
+            }
+        });
+    });
+
+
+</script>
+
+<div class="row">
+
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <section>
+            <h4>Wybierz dzień pracy:</h4>
+            <div class="input-group marginCal">
+                <input class="form-control" id="date" name="date" placeholder="YYYY-MM-DD" type="text" />
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+            </div>
+            <a href="" class="btn btn-success " name="submit" id="submit">
+                Sprawdź
+            </a>
+        </section>
+        <section>
+            <label class="control-label col-sm-offset-3 col-sm-9" for="login">Wizyty w dniu: @ViewData["date"].ToString()</label>
+            @if (Model.listaWizytLekarza.Count != 0)
+            {
+                <form class="form-horizontal">
+                    @foreach (var w in Model.listaWizytLekarza)
+                {
+                        <div class="formForLog">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4" for="login">Godzina wizyty:</label>
+                                <label class="control-label col-sm-8">@w.GodzinaWizyty</label>
+                            </div>
+                        </div>
+                        <div class="formForLog">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4" for="login">Imię pacjenta:</label>
+                                <label class="control-label col-sm-8">@w.Pacjent.Imie</label>
+                            </div>
+                        </div>
+                        <div class="formForLog">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4" for="login">Nazwisko pacjenta:</label>
+                                <label class="control-label col-sm-8">@w.Pacjent.Nazwisko</label>
+                            </div>
+                        </div>
+                        <div class="formForLog">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4" for="login">Nr PESEL:</label>
+                                <label class="control-label col-sm-8">@w.Pacjent.NrPSEL</label>
+                            </div>
+                        </div>
+                        <div class="formForLog">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4" for="login">Nr tel.:</label>
+                                <label class="control-label col-sm-8">@w.Pacjent.NrTel</label>
+                            </div>
+                        </div>
+                        <div class="formForLog">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4" for="login">Adres pacjenta:</label>
+                                <label class="control-label col-sm-8">@w.Pacjent.AdresZameldowania</label>
+                            </div>
+                        </div>
+                        <hr class="hr" />
+                    }
+                </form>
+            }
+            else
+            {
+                <div>Brak wizyt na ten dzień</div>
+            }
+
+        </section>
+    </div>
+    <div class="col-sm-4"></div>
+
+</div>

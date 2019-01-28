@@ -1,0 +1,57 @@
+﻿@model mgrprojekt.ViewModel.Account
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var responseFromController = ViewData["Msg"].ToString();
+}
+
+@using (Html.BeginForm("Login", "PanelPracownika", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-sm-5"></div>
+        <div class="col-md-2">
+            <form class="form-horizontal">
+                <div class="row">
+                    <div class="formForLog">
+                        @if (responseFromController == "true" && responseFromController != null)
+                        {
+                            <div class="alert alert-warning">
+                                <strong>Złe dane logowania.</strong>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="formForLog">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="login">@Html.LabelFor(u => u.Login)</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(u => u.Login, new { @class = "form-control", id = "login", placeholder = "Login", name = "login" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="formForLog">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="pwd">@Html.LabelFor(u => u.Haslo, "Hasło")</label>
+                            <div class="col-sm-9">
+                                @Html.PasswordFor(a => a.Haslo, new { @class = "form-control", id = "haslo", placeholder = "Hasło", name = "haslo" })
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                <div class="row">
+                    <div class="formForLog marBut">
+                        <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-7">
+                                <button type="submit" class="btn btn-success">Zaloguj</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+}
